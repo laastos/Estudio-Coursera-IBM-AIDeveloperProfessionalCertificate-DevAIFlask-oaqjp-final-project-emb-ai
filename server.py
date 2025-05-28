@@ -13,7 +13,7 @@ def sent_analyzer():
 
     # Return a formatted string with the sentiment label and score
     if 'error' in response:
-        return response['error']
+        return 'Invalid text! Please try again! {}'.format(response['error'])
     # If the response is successful, format the output with the emotion scores
     return ("For the given statement, the system response is 'anger': {},"
         "'disgust': {}, 'fear': {}, 'joy': {} and 'sadness': {}. "
