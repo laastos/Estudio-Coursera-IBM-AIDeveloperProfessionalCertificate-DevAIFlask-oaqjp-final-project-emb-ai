@@ -12,14 +12,17 @@ def emotion_detector(text_to_analyze):
     response = requests.post(url, json = myobj, headers=header)
     # Parsing the JSON response from the API
     formatted_response = json.loads(response.text)
-    # Extracting sentiment label and score from the response
-    emotions = {
-        'anger' : formatted_response['emotionPredictions'][0]['emotion']['anger'],
-        'disgust' : formatted_response['emotionPredictions'][0]['emotion']['disgust'],
-        'fear' : formatted_response['emotionPredictions'][0]['emotion']['fear'],
-        'joy' : formatted_response['emotionPredictions'][0]['emotion']['joy'],
-        'sadness' : formatted_response['emotionPredictions'][0]['emotion']['sadness']
-    }
-    emotions['dominant_emotion'] = max(emotions, key=emotions.get)
+    # Extracting emotion label and score from the response
+    if response.status_code == 200:
+        emotions = {
+            'anger' : formatted_response['emotionPredictions'][0]['emotion']['anger'],
+            'disgust' : formatted_response['emotionPredictions'][0]['emotion']['disgust'],
+            'fear' : formatted_response['emotionPredictions'][0]['emotion']['fear'],
+            'joy' : formatted_response['emotionPredictions'][0]['emotion']['joy'],
+            'sadness' : formatted_response['emotionPredictions'][0]['emotion']['sadness']
+        }
+        emotions['dominant_emotion'] = max(emotions, key=emotions.get)
+    elif response.status_code == 500:
+        emotions = {'error': 'Internal Server Error: Please try again later.'}
     # Return the response text from the API
     return emotions

@@ -12,15 +12,18 @@ def sent_analyzer():
     response = emotion_detector(text_to_analyze)
 
     # Return a formatted string with the sentiment label and score
+    if 'error' in response:
+        return response['error']
+    # If the response is successful, format the output with the emotion scores
     return ("For the given statement, the system response is 'anger': {},"
         "'disgust': {}, 'fear': {}, 'joy': {} and 'sadness': {}. "
         "The dominant emotion is {}.").format(
-          response['anger'],
-          response['disgust'],
-          response['fear'],
-          response['joy'],
-          response['sadness'],
-          response['dominant_emotion']
+            response['anger'],
+            response['disgust'],
+            response['fear'],
+            response['joy'],
+            response['sadness'],
+            response['dominant_emotion']
     )
 
 @app.route("/")
