@@ -22,6 +22,16 @@ def emotion_detector(text_to_analyze):
             'sadness' : formatted_response['emotionPredictions'][0]['emotion']['sadness']
         }
         emotions['dominant_emotion'] = max(emotions, key=emotions.get)
+    elif response.status_code == 400:
+        emotions = {
+            'error': 'Bad Request: Please check the input text format.',
+            'anger' : None,
+            'disgust': None,
+            'fear': None,
+            'joy': None,
+            'sadness': None,
+            'dominant_emotion': None,
+        }
     elif response.status_code == 500:
         emotions = {'error': 'Internal Server Error: Please try again later.'}
     # Return the response text from the API
